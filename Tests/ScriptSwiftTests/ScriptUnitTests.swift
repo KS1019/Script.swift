@@ -14,7 +14,7 @@ final class ScriptUnitTests: XCTestCase {
     func testExecInvalid() {
         let command = #"makes-no-sense"#
         guard case .failure(let result1) = Script().exec([command]).input else {
-            return XCTFail("Expected failure")
+            return XCTFail("Expected failure but got success")
         }
         
         XCTAssertEqual(result1.localizedDescription, """
