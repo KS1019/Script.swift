@@ -1,4 +1,7 @@
 # Script.swift
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FKS1019%2FScript.swift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/KS1019/Script.swift)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FKS1019%2FScript.swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/KS1019/Script.swift)
+
 Script.swift is a small library that lets you write a Swift script with ease by using method chaining, inspired by [bitfield/script](https://github.com/bitfield/script).
 
 ## Install
