@@ -53,7 +53,7 @@ public struct Script<T> {
     public func ifExists(_ filename: String) -> Script<T> {
         do {
             _ = try File(path: filename)
-            return .init(input: self.input)
+            return self
         } catch {
             return .init(failure: error)
         }

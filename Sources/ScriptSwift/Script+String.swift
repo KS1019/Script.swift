@@ -25,7 +25,7 @@ extension Script where T == String {
         case .success(let input):
             do {
                 _ = try File(path: input)
-                return .init(input: self.input)
+                return self
             } catch {
                 return .init(failure: error)
             }
