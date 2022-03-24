@@ -48,7 +48,7 @@ By using `swift-sh`, you only have to take care of a single Swift file for your 
 <tr>
 <td>
 
-[`echo.swift`](https://github.com/KS1019/Script.swift/Examples/echo.swift)
+[`echo.swift`](https://github.com/KS1019/Script.swift/blob/3c6d94df1482cc9c6f47f9f1e43b99f8f16a765b/Examples/echo.swift)
 
 </td>
 <td>
