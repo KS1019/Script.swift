@@ -4,6 +4,8 @@
 
 Script.swift is a small library that lets you write a Swift script with ease by using method chaining, inspired by [bitfield/script](https://github.com/bitfield/script).
 
+![carbon-image](Assets/carbon-code.png)
+
 ## Install
 **Via Swift Package Manager**
 
