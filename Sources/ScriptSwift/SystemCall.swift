@@ -1,21 +1,16 @@
 #if canImport(Darwin)
 import Darwin
-func exit(withError error: Error? = nil) {
-    guard let error = error else {
-        exit(0)
-    }
-
-    fputs(error.localizedDescription, stderr)
-    exit(1)
-}
+let _exit = Darwin.exit
 #elseif canImport(Glibc)
 import Glibc
-func exit(withError error: Error? = nil) {
+let _exit = Glibc.exit
+#endif
+
+func exit(withError error: Error? = nil) -> Never {
     guard let error = error else {
-        exit(0)
+        _exit(0)
     }
 
     fputs(error.localizedDescription, stderr)
-    exit(1)
+    _exit(1)
 }
-#endif
