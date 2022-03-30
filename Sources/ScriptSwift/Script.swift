@@ -74,7 +74,6 @@ public struct Script<T> {
             return input
         case .failure(let error):
             exit(withError: error)
-            fatalError("Unknown error occured at \(#function) in \(#file)")
         }
     }
     
