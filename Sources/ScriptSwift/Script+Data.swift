@@ -9,7 +9,7 @@ extension Script where T == Data {
                 let file = try Folder.current.file(at: path)
                 try file.write(input)
                 return .init(success: file)
-                
+
             } catch {
                 return .init(failure: error)
             }
@@ -17,7 +17,7 @@ extension Script where T == Data {
             return .init(failure: error)
         }
     }
-    
+
     public func write(to filename: String) -> Script<File> {
         switch input {
         case .success(let input):
@@ -25,7 +25,7 @@ extension Script where T == Data {
                 let file = try Folder.current.file(named: filename)
                 try file.write(input)
                 return .init(success: file)
-                
+
             } catch {
                 return .init(failure: error)
             }

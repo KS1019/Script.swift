@@ -15,7 +15,7 @@ extension Script where T == File {
             return .init(failure: error)
         }
     }
-    
+
     public func read(encoded: String.Encoding = .utf8) -> Script<String> {
         switch input {
         case .success(let input):
