@@ -23,6 +23,17 @@ final class ScriptUnitTests: XCTestCase {
                        Message: "/bin/bash: makes-no-sense: command not found"
                        Output: ""
                        """)
+
+        guard case .failure(let result1) = Script().exec(command).input else {
+            return XCTFail("Expected failure but got success")
+        }
+
+        XCTAssertEqual(result1.localizedDescription, """
+                       ShellOut encountered an error
+                       Status code: 127
+                       Message: "/bin/bash: makes-no-sense: command not found"
+                       Output: ""
+                       """)
     }
 
     func testMap() {
@@ -56,5 +67,75 @@ final class ScriptUnitTests: XCTestCase {
 
         XCTAssertEqual(Script().stdin().raw(), "Test Is Important")
         XCTAssertEqual(Script().stdin().raw(), ["Test", "Is", "Important"])
+    }
+
+    func testIfExists() {
+        let md = Bundle.module.url(forResource: "TESTING", withExtension: "md")!
+        XCTAssertEqual(Script(success: md.path).ifExists().map { URL(fileURLWithPath: $0).lastPathComponent }.raw(), "TESTING.md")
+        XCTAssertEqual(Script(success: "Is it equal?").ifExists(md.path).raw(), "Is it equal?")
+
+        guard case .failure(let error1) = Script(success: Bundle.main.bundlePath + "NotAFile.md").ifExists().input else {
+            return XCTFail("Expected failure but got success")
+        }
+
+        XCTAssertNotNil(error1)
+
+        guard case .failure(let error2) = Script().ifExists("NotAFile.md").input else {
+            return XCTFail("Expected failure but got success")
+        }
+
+        XCTAssertNotNil(error2)
+    }
+
+    func testAsString() {
+        XCTAssertEqual(Script(success: 10).asString(), "10")
+        XCTAssertEqual(Script(success: "String").asString(), "String")
+    }
+}
+
+extension XCTest {
+    class OutputListener {
+        /// consumes the messages on STDOUT
+        let inputPipe = Pipe()
+
+        /// outputs messages back to STDOUT
+        let outputPipe = Pipe()
+
+        /// Buffers strings written to stdout
+        var contents = ""
+
+        init() {
+            // Set up a read handler which fires when data is written to our inputPipe
+            inputPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
+                guard let strongSelf = self else { return }
+
+                let data = fileHandle.availableData
+                if let string = String(data: data, encoding: String.Encoding.utf8) {
+                    strongSelf.contents += string
+                }
+
+                // Write input back to stdout
+                strongSelf.outputPipe.fileHandleForWriting.write(data)
+            }
+        }
+
+        /// Sets up the "tee" of piped output, intercepting stdout then passing it through.
+        func openConsolePipe() {
+            // Copy STDOUT file descriptor to outputPipe for writing strings back to STDOUT
+            dup2(STDOUT_FILENO, outputPipe.fileHandleForWriting.fileDescriptor)
+
+            // Intercept STDOUT with inputPipe
+            dup2(inputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
+        }
+
+        /// Tears down the "tee" of piped output.
+        func closeConsolePipe() {
+            // Restore stdout
+            freopen("/dev/stdout", "a", stdout)
+
+            [inputPipe.fileHandleForReading, outputPipe.fileHandleForWriting].forEach { file in
+                file.closeFile()
+            }
+        }
     }
 }
