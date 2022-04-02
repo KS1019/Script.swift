@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: sudo xcode-select -s "${{ matrix.xcode-version }}"
       - run: swift --version
+      - run: swift build --build-tests
       - run: swift test
   
   test-on-ubuntu:
@@ -39,4 +40,5 @@ jobs:
       - name: Install Swift
         run: swiftenv install "${{ matrix.swift-version }}" --skip-existing
       - run: swift --version
+      - run: swift build --build-tests
       - run: swift test --enable-test-discovery
