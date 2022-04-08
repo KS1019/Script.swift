@@ -69,6 +69,20 @@ final class ScriptUnitTests: XCTestCase {
         XCTAssertEqual(Script().stdin().raw(), ["Test", "Is", "Important"])
     }
 
+    func testStdout() {
+        let expectation = XCTestExpectation(description: "Test stdout")
+        let listener = OutputListener()
+        listener.openConsolePipe()
+        let string = "hello"
+        Script(success: string).stdout()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            XCTAssertEqual(listener.contents, string + "\n")
+            listener.closeConsolePipe()
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 2.0)
+    }
+
     func testIfExists() {
         let md = Bundle.module.url(forResource: "TESTING", withExtension: "md")!
         XCTAssertEqual(Script(success: md.path).ifExists().map { URL(fileURLWithPath: $0).lastPathComponent }.raw(), "TESTING.md")
