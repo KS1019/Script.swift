@@ -69,20 +69,6 @@ final class ScriptUnitTests: XCTestCase {
         XCTAssertEqual(Script().stdin().raw(), ["Test", "Is", "Important"])
     }
 
-    func testStdout() {
-        let expectation = XCTestExpectation(description: "Test stdout")
-        let listener = OutputListener()
-        listener.openConsolePipe()
-        let string = "hello"
-        Script(success: string).stdout()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-            XCTAssertEqual(listener.contents, string + "\n")
-            listener.closeConsolePipe()
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 5.0)
-    }
-
     func testIfExists() {
         let md = Bundle.module.url(forResource: "TESTING", withExtension: "md")!
         XCTAssertEqual(Script(success: md.path).ifExists().map { URL(fileURLWithPath: $0).lastPathComponent }.raw(), "TESTING.md")
@@ -104,52 +90,5 @@ final class ScriptUnitTests: XCTestCase {
     func testAsString() {
         XCTAssertEqual(Script(success: 10).asString(), "10")
         XCTAssertEqual(Script(success: "String").asString(), "String")
-    }
-}
-
-extension XCTest {
-    class OutputListener {
-        /// consumes the messages on STDOUT
-        let inputPipe = Pipe()
-
-        /// outputs messages back to STDOUT
-        let outputPipe = Pipe()
-
-        /// Buffers strings written to stdout
-        var contents = ""
-
-        init() {
-            // Set up a read handler which fires when data is written to our inputPipe
-            inputPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
-                guard let strongSelf = self else { return }
-
-                let data = fileHandle.availableData
-                if let string = String(data: data, encoding: String.Encoding.utf8) {
-                    strongSelf.contents += string
-                }
-
-                // Write input back to stdout
-                strongSelf.outputPipe.fileHandleForWriting.write(data)
-            }
-        }
-
-        /// Sets up the "tee" of piped output, intercepting stdout then passing it through.
-        func openConsolePipe() {
-            // Copy STDOUT file descriptor to outputPipe for writing strings back to STDOUT
-            dup2(STDOUT_FILENO, outputPipe.fileHandleForWriting.fileDescriptor)
-
-            // Intercept STDOUT with inputPipe
-            dup2(inputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
-        }
-
-        /// Tears down the "tee" of piped output.
-        func closeConsolePipe() {
-            // Restore stdout
-            freopen("/dev/stdout", "a", stdout)
-
-            [inputPipe.fileHandleForReading, outputPipe.fileHandleForWriting].forEach { file in
-                file.closeFile()
-            }
-        }
     }
 }
