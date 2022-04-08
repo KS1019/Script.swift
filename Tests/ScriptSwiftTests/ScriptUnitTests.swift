@@ -24,11 +24,11 @@ final class ScriptUnitTests: XCTestCase {
                        Output: ""
                        """)
 
-        guard case .failure(let result1) = Script().exec(command).input else {
+        guard case .failure(let result2) = Script().exec(command).input else {
             return XCTFail("Expected failure but got success")
         }
 
-        XCTAssertEqual(result1.localizedDescription, """
+        XCTAssertEqual(result2.localizedDescription, """
                        ShellOut encountered an error
                        Status code: 127
                        Message: "/bin/bash: makes-no-sense: command not found"
