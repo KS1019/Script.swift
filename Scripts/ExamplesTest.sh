@@ -5,7 +5,7 @@ swift sh --clean-cache
 try () {
 	expected="$1"
 	script="$2"
-	actual="$(swift sh "$script")"
+	actual="$(swift sh "$script" 2>/dev/null)"
 
 	if [ "$actual" = "$expected" ]; then
 		echo "\xE2\x9C\x94 Success $script"
