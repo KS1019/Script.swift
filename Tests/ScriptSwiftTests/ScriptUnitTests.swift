@@ -75,12 +75,12 @@ final class ScriptUnitTests: XCTestCase {
         listener.openConsolePipe()
         let string = "hello"
         Script(success: string).stdout()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
             XCTAssertEqual(listener.contents, string + "\n")
             listener.closeConsolePipe()
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: 5.0)
     }
 
     func testIfExists() {
