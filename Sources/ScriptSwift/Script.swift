@@ -18,11 +18,13 @@ public struct Script<T> {
     }
 
     public func stdin() -> Script<String> {
-        return .init(success: CommandLine.arguments.joined(separator: " "))
+        guard let array: [String] = readLine()?.split(separator: " ").map({ s in String(s) }) else { return .init(success: "") }
+        return .init(success: array.joined(separator: " "))
     }
 
     public func stdin() -> Script<[String]> {
-        return .init(success: CommandLine.arguments)
+        guard let array: [String] = readLine()?.split(separator: " ").map({ s in String(s) }) else { return .init(success: []) }
+        return .init(success: array)
     }
 
     public func stdout() {
