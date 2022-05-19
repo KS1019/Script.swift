@@ -22,10 +22,10 @@ public struct Script<T> {
         return .init(success: array.joined(separator: " "))
     }
 
-    public func stdin() -> Script<[String]> {
-        guard let array: [String] = readLine()?.split(separator: " ").map({ s in String(s) }) else { return .init(success: []) }
-        return .init(success: array)
-    }
+    // public func stdin() -> Script<[String]> {
+    //     guard let array: [String] = readLine()?.split(separator: " ").map({ s in String(s) }) else { return .init(success: []) }
+    //     return .init(success: array)
+    // }
 
     public func stdout() {
         switch input {

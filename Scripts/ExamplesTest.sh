@@ -5,7 +5,13 @@ swift sh --clean-cache
 try () {
 	expected="$1"
 	script="$2"
-	actual="$(swift sh "$script" 2>/dev/null)"
+    args="$3"
+
+    if [ "$args" ]; then
+        actual="$(echo "$args" | swift sh "$script" 2>/dev/null)"
+    else
+        actual="$(swift sh "$script" 2>/dev/null)"
+    fi
 
 	if [ "$actual" = "$expected" ]; then
 		echo "\xE2\x9C\x94 Success $script"
@@ -65,3 +71,5 @@ html="<!doctype html>
 </html>"
 
 try "$html" "../Examples/curl.swift"
+
+try "Received input: hh. Test is working. Yay." "../Examples/stdin.swift" "hh"
