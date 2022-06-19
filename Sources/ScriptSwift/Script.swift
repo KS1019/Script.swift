@@ -20,8 +20,8 @@ public struct Script<T> {
         self.init(input: .failure(failure))
     }
     
-    /// This function collects inputs from stdin and returns as String.
-    /// - Returns: Script object containing String value or failure
+    /// This function collects inputs from stdin and returns as `String`.
+    /// - Returns: `Script` object containing `String` value or failure
     public func stdin() -> Script<String> {
         guard let array: [String] = readLine()?.split(separator: " ").map({ s in String(s) }) else { return .init(success: "") }
         return .init(success: array.joined(separator: " "))
@@ -38,8 +38,8 @@ public struct Script<T> {
     }
     
     /// This function executes externtal command.
-    /// - Parameter command: Array of String to execute command
-    /// - Returns: Script object containing String value or failure
+    /// - Parameter command: `Array` of `String` to execute command
+    /// - Returns: `Script` object containing `String` value or failure
     public func exec(_ command: [String]) -> Script<String> {
         do {
             return .init(success: try shellOut(to: command))
@@ -49,8 +49,8 @@ public struct Script<T> {
     }
     
     /// This function executes externtal command.
-    /// - Parameter command: String to execute command
-    /// - Returns: Script object containing String value or failure
+    /// - Parameter command: `String` to execute command
+    /// - Returns: `Script` object containing `String` value or failure
     public func exec(_ command: String) -> Script<String> {
         do {
             return .init(success: try shellOut(to: command))
@@ -60,8 +60,8 @@ public struct Script<T> {
     }
     
     /// This function pass `self` to next function in the method chain if a file exists.
-    /// - Parameter filename: String to represent name of a file
-    /// - Returns: Script object passed from previous function or failure
+    /// - Parameter filename: `String` to represent name of a file
+    /// - Returns: `Script` object passed from previous function or failure
     public func ifExists(_ filename: String) -> Script<T> {
         do {
             _ = try File(path: filename)
@@ -73,7 +73,7 @@ public struct Script<T> {
     
     /// This function lets user modify the contained value in the method chain.
     /// - Parameter transform: A closure to modify the contained value
-    /// - Returns: Script object with modified value or failure
+    /// - Returns: `Script` object with modified value or failure
     public func map<N>(_ transform: (T) -> N) -> Script<N> {
         switch input {
         case .success(let input):
@@ -94,8 +94,8 @@ public struct Script<T> {
         }
     }
     
-    /// This function returns the contained value or error as String.
-    /// - Returns: String representaion of the contained value or error
+    /// This function returns the contained value or error as `String`.
+    /// - Returns: `String` representaion of the contained value or error
     public func asString() -> String {
         switch input {
         case .success(let input):
