@@ -6,6 +6,9 @@ import Glibc
 let _exit = Glibc.exit
 #endif
 
+/// This function exit current process with error if given.
+/// - Parameter error: `Error` object
+/// - Returns: `Never`
 func exit(withError error: Error? = nil) -> Never {
     guard let error = error else {
         _exit(0)
