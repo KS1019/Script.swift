@@ -4,7 +4,7 @@ import Files
 extension Script where T == Data {
     /// This function writes `Data` value from previous ``Script`` method to a file specified.
     /// - Parameter path: `String` representation of path of the file
-    /// - Returns: `Script` object with `File` value or failure
+    /// - Returns: ``Script`` object with `File` value or failure
     public func write(path: String) -> Script<File> {
         switch input {
         case .success(let input):
@@ -20,7 +20,10 @@ extension Script where T == Data {
             return .init(failure: error)
         }
     }
-
+    
+    /// This function writes `Data` value from previous ``Script`` method to a file specified.
+    /// - Parameter filename: `String` representation of the name of the file
+    /// - Returns: ``Script`` object with `File` value or failure
     public func write(to filename: String) -> Script<File> {
         switch input {
         case .success(let input):
