@@ -13,7 +13,6 @@ extension Script where T: Comparable {
         }
     }
 
-
     /// This method return true when the piped value is less than `number` and false otherwise.
     /// - Parameter number: `Comparable` value
     /// - Returns: Bool value by comparing the piped value and the parameter `number`

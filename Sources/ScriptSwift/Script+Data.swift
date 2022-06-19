@@ -20,7 +20,7 @@ extension Script where T == Data {
             return .init(failure: error)
         }
     }
-    
+
     /// This function writes `Data` value from previous ``Script`` method to a file specified.
     /// - Parameter filename: `String` representation of the name of the file
     /// - Returns: ``Script`` object with `File` value or failure

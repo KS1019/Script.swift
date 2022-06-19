@@ -17,7 +17,7 @@ extension Script where T == File {
             return .init(failure: error)
         }
     }
-    
+
     /// This function reads file from the value of the previous ``Script`` method.
     /// - Parameter encoded: This indicates how the file is encoded.
     /// - Returns: ``Script`` object with `String` representation of the file or failure
