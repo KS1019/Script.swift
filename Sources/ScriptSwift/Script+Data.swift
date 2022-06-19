@@ -2,6 +2,9 @@ import struct Foundation.Data
 import Files
 
 extension Script where T == Data {
+    /// This function writes `Data` value from previous ``Script`` method to a file specified.
+    /// - Parameter path: `String` representation of path of the file
+    /// - Returns: `Script` object with `File` value or failure
     public func write(path: String) -> Script<File> {
         switch input {
         case .success(let input):
