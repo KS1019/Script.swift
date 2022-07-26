@@ -73,3 +73,5 @@ html="<!doctype html>
 try "$html" "../Examples/curl.swift"
 
 try "Received input: hh. Test is working. Yay." "../Examples/stdin.swift" "hh"
+
+try "Test Success" "../Examples/cd.swift"
