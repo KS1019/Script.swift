@@ -17,6 +17,5 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - run: eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || true
-      - run: brew install swift-sh
+      - run: eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || true && brew install swift-sh
       - run: sh ./Scripts/ExamplesTest.sh
