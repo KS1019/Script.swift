@@ -8,16 +8,16 @@ import struct Foundation.Data
 public struct Script<T> {
     var input: Result<T, Error>
 
-    internal init(input: Result<T, Error>) {
+    internal init(_ input: Result<T, Error>) {
         self.input = input
     }
 
     public init(success: T) {
-        self.init(input: .success(success))
+        self.init(.success(success))
     }
 
     internal init(failure: Error) {
-        self.init(input: .failure(failure))
+        self.init(.failure(failure))
     }
 
     /// This function collects inputs from stdin and returns them as `String`.
@@ -41,14 +41,14 @@ public struct Script<T> {
     /// - Parameter command: `Array` of `String` to execute a command
     /// - Returns: ``Script`` object containing `String` value or failure
     public func exec(_ command: [String]) -> Script<String> {
-        Script(input: Result { try shellOut(to: command) })
+        Script<String>(Result { try shellOut(to: command) })
     }
 
     /// This function executes an external command.
     /// - Parameter command: `String` to execute a command
     /// - Returns: ``Script`` object containing `String` value or failure
     public func exec(_ command: String) -> Script<String> {
-        Script(input: Result { try shellOut(to: command) })
+        Script<String>(Result { try shellOut(to: command) })
     }
 
     /// This function passes `self` to the next function in the method chain if a file exists.
