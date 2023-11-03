@@ -4,30 +4,30 @@ import struct Foundation.Data
 
 /// Script type
 ///
-/// By using method chain, you can express a workflow of your script in Swift.
+/// By using a method chain, you can express a workflow of your script in Swift.
 public struct Script<T> {
     var input: Result<T, Error>
 
-    internal init(input: Result<T, Error>) {
+    internal init(_ input: Result<T, Error>) {
         self.input = input
     }
 
     public init(success: T) {
-        self.init(input: .success(success))
+        self.init(.success(success))
     }
 
     internal init(failure: Error) {
-        self.init(input: .failure(failure))
+        self.init(.failure(failure))
     }
 
-    /// This function collects inputs from stdin and returns as `String`.
+    /// This function collects inputs from stdin and returns them as `String`.
     /// - Returns: ``Script`` object containing `String` value or failure
     public func stdin() -> Script<String> {
         guard let array: [String] = readLine()?.split(separator: " ").map({ s in String(s) }) else { return .init(success: "") }
         return .init(success: array.joined(separator: " "))
     }
 
-    /// This function accepts inputs and outputs it to stdout.
+    /// This function accepts inputs and outputs them to stdout.
     public func stdout() {
         switch input {
         case .success(let input):
@@ -37,30 +37,22 @@ public struct Script<T> {
         }
     }
 
-    /// This function executes externtal command.
-    /// - Parameter command: `Array` of `String` to execute command
+    /// This function executes an external command.
+    /// - Parameter command: `Array` of `String` to execute a command
     /// - Returns: ``Script`` object containing `String` value or failure
     public func exec(_ command: [String]) -> Script<String> {
-        do {
-            return .init(success: try shellOut(to: command))
-        } catch {
-            return .init(failure: error)
-        }
+        Script<String>(Result { try shellOut(to: command) })
     }
 
-    /// This function executes externtal command.
-    /// - Parameter command: `String` to execute command
+    /// This function executes an external command.
+    /// - Parameter command: `String` to execute a command
     /// - Returns: ``Script`` object containing `String` value or failure
     public func exec(_ command: String) -> Script<String> {
-        do {
-            return .init(success: try shellOut(to: command))
-        } catch {
-            return .init(failure: error)
-        }
+        Script<String>(Result { try shellOut(to: command) })
     }
 
-    /// This function pass `self` to next function in the method chain if a file exists.
-    /// - Parameter filename: `String` to represent name of a file
+    /// This function passes `self` to the next function in the method chain if a file exists.
+    /// - Parameter filename: `String` to represent the name of a file
     /// - Returns: ``Script`` object passed from previous function or failure
     public func ifExists(_ filename: String) -> Script<T> {
         do {
@@ -95,7 +87,7 @@ public struct Script<T> {
     }
 
     /// This function returns the contained value or error as `String`.
-    /// - Returns: `String` representaion of the contained value or error
+    /// - Returns: `String` representation of the contained value or error
     public func asString() -> String {
         switch input {
         case .success(let input):
