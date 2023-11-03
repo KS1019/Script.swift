@@ -17,23 +17,41 @@ final class ScriptUnitTests: XCTestCase {
             return XCTFail("Expected failure but got success")
         }
 
+        #if os(macOS)
         XCTAssertEqual(result1.localizedDescription, """
                        ShellOut encountered an error
                        Status code: 127
                        Message: "/bin/bash: makes-no-sense: command not found"
                        Output: ""
                        """)
+        #else
+        XCTAssertEqual(result1.localizedDescription, """
+                       ShellOut encountered an error
+                       Status code: 127
+                       Message: "/bin/bash: line 1: makes-no-sense: command not found"
+                       Output: ""
+                       """)
+        #endif
 
         guard case .failure(let result2) = Script().exec(command).input else {
             return XCTFail("Expected failure but got success")
         }
 
+        #if os(macOS)
         XCTAssertEqual(result2.localizedDescription, """
                        ShellOut encountered an error
                        Status code: 127
                        Message: "/bin/bash: makes-no-sense: command not found"
                        Output: ""
                        """)
+        #else
+        XCTAssertEqual(result1.localizedDescription, """
+                       ShellOut encountered an error
+                       Status code: 127
+                       Message: "/bin/bash: line 1: makes-no-sense: command not found"
+                       Output: ""
+                       """)
+        #endif
     }
 
     func testMap() {
