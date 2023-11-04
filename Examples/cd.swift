@@ -6,7 +6,7 @@ let currentDir = Script().exec("pwd").asString()
 
 let d = Script()
     .cd(to: "../")
-    .cd(to: "-")
+    .cd(to: currentDir)
     .exec("pwd")
     .match(currentDir)
     .exec("echo 'Test Success'")
