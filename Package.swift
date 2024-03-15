@@ -6,8 +6,8 @@ let package = Package(
     name: "Script.swift",
     products: [
         .library(
-            name: "ScriptSwift",
-            targets: ["ScriptSwift"])
+            name: "Scripting",
+            targets: ["Scripting"])
     ],
     dependencies: [
         .package(url: "https://github.com/JohnSundell/ShellOut.git", from: "2.0.0"),
@@ -15,11 +15,11 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "ScriptSwift",
+            name: "Scripting",
             dependencies: ["ShellOut", "Files"]),
         .testTarget(
-            name: "ScriptSwiftTests",
-            dependencies: ["ScriptSwift"],
+            name: "ScriptingTests",
+            dependencies: ["Scripting"],
             resources: [
                 .process("Fixtures")
             ])
