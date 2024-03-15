@@ -1,5 +1,5 @@
 import XCTest
-@testable import ScriptSwift
+@testable import Scripting
 import ShellOut
 
 final class ScriptUnitTests: XCTestCase {
