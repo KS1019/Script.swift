@@ -13,7 +13,6 @@ jobs:
       matrix:
         xcode-version:
           - /Applications/Xcode_15.0.app
-          - /Applications/Xcode_14.3.1.app
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +25,7 @@ jobs:
     name: Test on Ubuntu
     strategy:
       matrix:
-        swift-version: ["5.7", "5.8"]
+        swift-version: ["5.9", "5.10"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
