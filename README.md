@@ -32,7 +32,7 @@ import Scripting // KS1019/Script.swift ~> 0.0.1
 | `concat` | Returns an array of string representation of files |
 | `asArray` | Returns lines of a string as an array |
 
-See [documentation]() for more details.
+See [documentation](https://swiftpackageindex.com/KS1019/Script.swift/documentation) for more details.
 
 ### Using `Script.swift` with [`swift-sh`](https://github.com/mxcl/swift-sh)
 When you want a script, you typically want it in a single file. With usual setup using Swift Package Manager to interact with external libraries, you would end up a directory with `Package.swift`, which is bit much as a script.
