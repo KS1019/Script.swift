@@ -1,6 +1,6 @@
 #!/usr/bin/swift sh
 
-import ScriptSwift // KS1019/Script.swift ~> main
+import Scripting // KS1019/Script.swift ~> main
 
 let currentDir = Script().exec("pwd").asString()
 
