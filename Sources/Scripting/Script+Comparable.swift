@@ -5,7 +5,7 @@ extension Script where T: Comparable {
     /// - Parameter rhs: `Comparable` value
     /// - Returns: Bool value by comparing the piped value and the parameter `rhs`
     public func more(than rhs: T) -> Script<Bool> {
-        switch lhs {
+        switch input {
         case .success(let lhs):
             return .init(success: lhs > rhs)
         case .failure(let error):
@@ -17,7 +17,7 @@ extension Script where T: Comparable {
     /// - Parameter rhs: `Comparable` value
     /// - Returns: Bool value by comparing the piped value and the parameter `rhs`
     public func less(than rhs: T) -> Script<Bool> {
-        switch lhs {
+        switch input {
         case .success(let lhs):
             return .init(success: lhs < rhs)
         case .failure(let error):
@@ -29,7 +29,7 @@ extension Script where T: Comparable {
     /// - Parameter rhs: `Comparable` value
     /// - Returns: Bool value by comparing the piped value and the parameter `rhs`
     public func equal(to rhs: T) -> Script<Bool> {
-        switch lhs {
+        switch input {
         case .success(let lhs):
             return .init(success: lhs == rhs)
         case .failure(let error):
